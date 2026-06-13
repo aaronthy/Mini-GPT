@@ -1,8 +1,9 @@
 # Mini GPT — Transformer Built From Scratch
 
-![Mini-GPT](images/minigpt1.png)
-![Mini-GPT](images/minigpt2.png)
-![Mini-GPT](images/minigpt3.png)
+![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat&logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.x-EE4C2C?style=flat&logo=pytorch&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-app-FF4B4B?style=flat&logo=streamlit&logoColor=white)
+![Parameters](https://img.shields.io/badge/Parameters-~158k-4A7FD4?style=flat)
 
 A minimal GPT implementation built from scratch in PyTorch, trained on 1.1M tokens of Shakespeare. Every component — embeddings, attention, FFN, training loop — is hand-coded without high-level abstractions.
 
@@ -101,6 +102,12 @@ python training/train.py
 ```bash
 streamlit run app/streamlit_app.py
 ```
+
+## Screenshot
+
+![Mini-GPT](images/minigpt1.png)
+![Mini-GPT](images/minigpt2.png)
+![Mini-GPT](images/minigpt3.png)
 
 ---
 
