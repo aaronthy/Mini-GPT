@@ -65,6 +65,22 @@ Positional Encoding (sinusoidal, max_len=128)
 
 ---
 
+## Training
+
+| Epoch | Loss   |
+|-------|--------|
+| 100   | 2.8481 |
+| 500   | 2.4994 |
+| 1000  | 2.4584 |
+| 1500  | 2.4621 |
+| 2000  | 2.2865 |
+| 2500  | 2.1013 |
+| 3000  | 1.8590 |
+
+- 3,000 epochs · final loss 1.859
+- 158,465 parameters · 1.1M training tokens
+- Trained on CPU
+
 ## Project Structure
 
 ```
