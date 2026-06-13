@@ -27,7 +27,7 @@ Positional Encoding (sinusoidal, max_len=128)
 │                                 │
 │  ┌──────────────────────────┐   │
 │  │  Multi-Head Attention    │   │
-│  │  (8 heads, d_k=8 each)  │   │
+│  │  (8 heads, d_k=8 each)   │   │
 │  └──────────┬───────────────┘   │
 │             │ + residual        │
 │         Layer Norm              │
