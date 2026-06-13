@@ -81,6 +81,9 @@ Positional Encoding (sinusoidal, max_len=128)
 - 158,465 parameters · 1.1M training tokens
 - Trained on CPU
 
+## Loss Curve
+![Mini-GPT](images/minigpt_loss_curve.png)
+
 ## Project Structure
 
 ```
