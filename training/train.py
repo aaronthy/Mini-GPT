@@ -5,6 +5,8 @@ import torch
 import torch.nn as nn
 from torch.optim import Adam
 from model.gpt import MiniGPT
+import mlflow
+mlflow.set_tracking_uri("sqlite:///mlflow.db")
 
 # ── settings ──────────────────────────────────────────
 d_model    = 64
@@ -21,16 +23,13 @@ lr         = 3e-4
 with open('data/input.txt', 'r') as f:
     text = f.read()
 
-# build character level vocabulary
 chars = sorted(set(text))
 vocab_size = len(chars)
 print(f"Vocabulary size: {vocab_size} unique characters")
 
-# char to index and index to char lookups
 char_to_idx = {ch: i for i, ch in enumerate(chars)}
 idx_to_char = {i: ch for i, ch in enumerate(chars)}
 
-# encode full text into numbers
 data = torch.tensor([char_to_idx[ch] for ch in text], dtype=torch.long)
 print(f"Total tokens: {len(data):,}")
 
@@ -46,26 +45,42 @@ model = MiniGPT(vocab_size, d_model, num_heads, d_ff, num_layers, max_len, dropo
 optimizer = Adam(model.parameters(), lr=lr)
 loss_fn = nn.CrossEntropyLoss()
 
-print(f"Total parameters: {sum(p.numel() for p in model.parameters()):,}")
+total_params = sum(p.numel() for p in model.parameters())
+print(f"Total parameters: {total_params:,}")
 
 # ── training loop ──────────────────────────────────────
-model.train()
-for epoch in range(epochs):
-    x, y = get_batch(data, batch_size, max_len)
+mlflow.set_experiment("mini-gpt")
 
-    # forward pass
-    logits = model(x)
+with mlflow.start_run():
 
-    # reshape for loss function
-    loss = loss_fn(logits.view(-1, vocab_size), y.view(-1))
+    mlflow.log_params({
+        "d_model":      d_model,
+        "num_heads":    num_heads,
+        "d_ff":         d_ff,
+        "num_layers":   num_layers,
+        "max_len":      max_len,
+        "dropout":      dropout,
+        "batch_size":   batch_size,
+        "epochs":       epochs,
+        "lr":           lr,
+        "total_params": total_params,
+    })
 
-    # backward pass
-    optimizer.zero_grad()
-    loss.backward()
-    optimizer.step()
+    model.train()
+    for epoch in range(epochs):
+        x, y = get_batch(data, batch_size, max_len)
 
-    if (epoch + 1) % 100 == 0:
-        print(f"Epoch {epoch+1}/{epochs}  Loss: {loss.item():.4f}")
+        logits = model(x)
+        loss = loss_fn(logits.view(-1, vocab_size), y.view(-1))
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        if (epoch + 1) % 100 == 0:
+            loss_val = loss.item()
+            print(f"Epoch {epoch+1}/{epochs}  Loss: {loss_val:.4f}")
+            mlflow.log_metric("loss", loss_val, step=epoch+1)
 
 print("Training done!")
 
