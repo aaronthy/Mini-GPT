@@ -7,7 +7,7 @@
 
 A minimal GPT implementation built from scratch in PyTorch, trained on 1.1M tokens of Shakespeare. Every component — embeddings, attention, FFN, training loop — is hand-coded without high-level abstractions.
 
-> **[Live Demo →](https://your-app.streamlit.app)** &nbsp;|&nbsp; Character-level text generation with real-time attention heatmap visualization
+> **[Live Demo →](https://mini-gpt-dw3naakgotwltpt9bmyeu9.streamlit.app/)** &nbsp;|&nbsp; Character-level text generation with real-time attention heatmap visualization
 
 ---
 
